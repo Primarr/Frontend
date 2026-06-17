@@ -1,8 +1,37 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
+
+interface ListParams {
+  capability?: string;
+  maxPrice?: number;
+}
+
+interface TransactionParams {
+  limit?: number;
+  offset?: number;
+}
+
+interface ServiceData {
+  name: string;
+  capability: string;
+  description: string;
+  pricePerCall: number;
+  payoutAddress: string;
+}
+
+interface BudgetConfig {
+  sessionCap: number;
+  taskCap: number;
+  requireApprovalAbove: number;
+}
+
+interface WebhookData {
+  url: string;
+  events: string[];
+}
 
 const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-export const apiClient = axios.create({
+export const apiClient: AxiosInstance = axios.create({
   baseURL: apiBase,
   headers: {
     "Content-Type": "application/json",
@@ -18,47 +47,43 @@ apiClient.interceptors.request.use((config) => {
 });
 
 export const api = {
-  // Services/Registry
   services: {
-    list: (params?: { capability?: string; maxPrice?: number }) =>
+    list: (params?: ListParams) =>
       apiClient.get("/v1/registry/search", { params }),
     get: (id: string) => apiClient.get(`/v1/services/${id}`),
-    publish: (data: any) => apiClient.post("/v1/services", data),
-    update: (id: string, data: any) => apiClient.put(`/v1/services/${id}`, data),
+    publish: (data: ServiceData) => apiClient.post("/v1/services", data),
+    update: (id: string, data: Partial<ServiceData>) =>
+      apiClient.put(`/v1/services/${id}`, data),
   },
 
-  // Payments/Transactions
   transactions: {
-    list: (params?: { limit?: number; offset?: number }) =>
+    list: (params?: TransactionParams) =>
       apiClient.get("/v1/transactions", { params }),
     get: (id: string) => apiClient.get(`/v1/transactions/${id}`),
   },
 
-  // Agents
   agents: {
     list: () => apiClient.get("/v1/agents"),
     get: (id: string) => apiClient.get(`/v1/agents/${id}`),
-    create: (data: any) => apiClient.post("/v1/agents", data),
+    create: (data: Record<string, unknown>) => apiClient.post("/v1/agents", data),
   },
 
-  // Budget
   budget: {
     get: (agentId: string) => apiClient.get(`/v1/budget/${agentId}`),
-    configure: (agentId: string, data: any) =>
+    configure: (agentId: string, data: BudgetConfig) =>
       apiClient.put(`/v1/budget/${agentId}`, data),
   },
 
-  // Webhooks
   webhooks: {
     list: () => apiClient.get("/v1/webhooks"),
-    create: (data: any) => apiClient.post("/v1/webhooks", data),
+    create: (data: WebhookData) => apiClient.post("/v1/webhooks", data),
     delete: (id: string) => apiClient.delete(`/v1/webhooks/${id}`),
     testPayload: (id: string) => apiClient.post(`/v1/webhooks/${id}/test`),
   },
 
-  // Auth
   auth: {
-    login: (credentials: any) => apiClient.post("/v1/auth/login", credentials),
+    login: (credentials: Record<string, unknown>) =>
+      apiClient.post("/v1/auth/login", credentials),
     logout: () => apiClient.post("/v1/auth/logout"),
   },
 };

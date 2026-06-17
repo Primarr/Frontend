@@ -6,7 +6,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { TrendingUp, Users, Zap, Activity } from "lucide-react";
 
+const mockTransactions = [
+  { id: 0, amount: 67.46 },
+  { id: 1, amount: 86.58 },
+  { id: 2, amount: 48.47 },
+  { id: 3, amount: 36.94 },
+  { id: 4, amount: 56.09 },
+];
+
 export default function Home() {
+
   const stats = [
     {
       label: "Total Spent Today",
@@ -73,21 +82,21 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {[...Array(5)].map((_, i) => (
+                {mockTransactions.map((tx) => (
                   <div
-                    key={i}
+                    key={tx.id}
                     className="flex items-center justify-between py-3 border-b border-zinc-200 dark:border-zinc-800 last:border-b-0"
                   >
                     <div>
                       <div className="font-medium text-zinc-900 dark:text-zinc-50">
-                        Agent {i + 1} → Service
+                        Agent {tx.id + 1} → Service
                       </div>
                       <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                         2 minutes ago
                       </div>
                     </div>
                     <div className="font-mono text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                      ${(Math.random() * 100).toFixed(2)}
+                      ${tx.amount.toFixed(2)}
                     </div>
                   </div>
                 ))}

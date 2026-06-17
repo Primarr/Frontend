@@ -68,7 +68,7 @@ export default function WebhooksPage() {
             <CardHeader>
               <CardTitle>Register Webhook Endpoint</CardTitle>
               <CardDescription>
-                We'll send HMAC-signed POST requests to your endpoint
+                We&apos;ll send HMAC-signed POST requests to your endpoint
               </CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmit}>

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Copy, RotateCw } from "lucide-react";
 
 export default function SettingsPage() {
-  const [apiKey, setApiKey] = useState("pk_test_51234567890");
+  const [apiKey] = useState("pk_test_51234567890");
   const [showApiKey, setShowApiKey] = useState(false);
 
   return (

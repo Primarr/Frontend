@@ -1,11 +1,10 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useMemo } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,10 +21,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClientRef = useRef<QueryClient | null>(null);
-  if (!queryClientRef.current) {
-    queryClientRef.current = new QueryClient();
-  }
+  const queryClient = useMemo(() => new QueryClient(), []);
 
   return (
     <html
@@ -37,7 +33,7 @@ export default function RootLayout({
         <meta name="description" content="Payment rails for the agent economy" />
       </head>
       <body className="min-h-full flex flex-col bg-white dark:bg-black">
-        <QueryClientProvider client={queryClientRef.current}>
+        <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
       </body>

@@ -2,12 +2,20 @@
 
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-export default function AgentDetailPage({ params }: { params: { id: string } }) {
+const mockTransactions = [
+  { id: 0, amount: 6.23 },
+  { id: 1, amount: 8.45 },
+  { id: 2, amount: 4.12 },
+  { id: 3, amount: 7.89 },
+  { id: 4, amount: 5.34 },
+];
+
+export default function AgentDetailPage() {
+
   const spendData = [
     { date: "Mon", amount: 120 },
     { date: "Tue", amount: 150 },
@@ -98,22 +106,22 @@ export default function AgentDetailPage({ params }: { params: { id: string } }) 
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {[...Array(5)].map((_, i) => (
+              {mockTransactions.map((tx) => (
                 <div
-                  key={i}
+                  key={tx.id}
                   className="flex items-center justify-between py-3 border-b border-zinc-200 dark:border-zinc-800 last:border-b-0"
                 >
                   <div>
                     <div className="font-medium text-zinc-900 dark:text-zinc-50">
-                      Service Call #{i + 1}
+                      Service Call #{tx.id + 1}
                     </div>
                     <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                      {i * 15} minutes ago
+                      {tx.id * 15} minutes ago
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                      ${(Math.random() * 10).toFixed(2)}
+                      ${tx.amount.toFixed(2)}
                     </div>
                     <div className="text-xs text-green-600 dark:text-green-400">
                       ✓ Settled
