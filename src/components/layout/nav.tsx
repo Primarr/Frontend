@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { BarChart3, Settings, Zap, Code2, Activity, Grid3x3, LogOut } from "lucide-react";
@@ -24,7 +25,7 @@ export function Nav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
-            <Zap className="w-6 h-6 text-violet-600" />
+            <Image src="/logo.jpg" alt="Primer" width={32} height={32} className="rounded" />
             <span className="font-semibold text-lg hidden sm:inline">Primer</span>
           </Link>
 
